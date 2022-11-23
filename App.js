@@ -84,7 +84,7 @@ const App = () => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <View style={{ margin: 5 }}>
+              <View style={{margin: 5}}>
                 <TouchableOpacity onPress={() => setModalVisible(false)}>
                   <Image
                     style={{
@@ -98,8 +98,8 @@ const App = () => {
               </View>
               {/* ====================================================================================== */}
               <View style={styles.modalContainer}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                  <Text>Are you sure?</Text>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{color: 'black'}}>Are you sure?</Text>
                 </View>
                 <View
                   style={{
@@ -139,7 +139,7 @@ const App = () => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <View style={{ margin: 5 }}>
+              <View style={{margin: 5}}>
                 <TouchableOpacity onPress={() => setModalVisibleSuccess(false)}>
                   <Image
                     style={{
@@ -152,8 +152,8 @@ const App = () => {
                 </TouchableOpacity>
               </View>
               <View style={styles.modalContainer}>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                  <Text>Successful Registration</Text>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{color: 'black'}}>Successful Registration</Text>
                 </View>
               </View>
             </View>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'black',
+    color: 'blue',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
