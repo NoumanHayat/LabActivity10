@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 // eslint-disable-next-line prettier/prettier
 import React, { useState, createRef } from 'react';
 import {
@@ -11,6 +12,7 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  Modal,
 } from 'react-native';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
@@ -19,119 +21,144 @@ import {
 const App = () => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
-  const [userAddress, setUserAddress] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
-  const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleSuccess, setModalVisibleSuccess] = useState(false);
   const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
-  const passwordInputRef = createRef();
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Text>Hello</Text>
-        {/* <TextInput
-          style={styles.inputStyle}
-          underlineColorAndroid="#f000"
-          placeholder="Enter Address"
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="sentences"
-          returnKeyType="next"
-          blurOnSubmit={false}
-        /> */}
         <KeyboardAvoidingView enabled>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserName => setUserName(UserName)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Name"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
+          <View style={{paddingTop: '40%'}}>
+            <View style={styles.SectionStyle}>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={UserName => setUserName(UserName)}
+                underlineColorAndroid="#f000"
+                placeholder="Enter Name"
+                placeholderTextColor="#8b9cb5"
+                autoCapitalize="sentences"
+                returnKeyType="next"
+                blurOnSubmit={false}
+              />
+            </View>
+            <View style={styles.SectionStyle}>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={UserEmail => setUserEmail(UserEmail)}
+                underlineColorAndroid="#f000"
+                placeholder="Enter Email"
+                placeholderTextColor="#8b9cb5"
+                ref={emailInputRef}
+                returnKeyType="next"
+                blurOnSubmit={false}
+              />
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#7DE24E',
+                borderWidth: 0,
+                color: '#FFFFFF',
+                borderColor: '#7DE24E',
+                height: 40,
+                alignItems: 'center',
+                borderRadius: 30,
+                marginLeft: 35,
+                marginRight: 35,
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+              activeOpacity={0.5}
+              onPress={() => {
+                setModalVisible(true);
+              }}>
+              <Text style={styles.buttonTextStyle}>REGISTER</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserEmail => setUserEmail(UserEmail)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Email"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="email-address"
-              ref={emailInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current && passwordInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserPassword => setUserPassword(UserPassword)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Password"
-              placeholderTextColor="#8b9cb5"
-              ref={passwordInputRef}
-              returnKeyType="next"
-              secureTextEntry={true}
-              onSubmitEditing={() =>
-                ageInputRef.current && ageInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserAge => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Age"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current && addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserAddress => setUserAddress(UserAddress)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Address"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={addressInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-          </View>
-          {errortext != '' ? (
-            <Text style={styles.errorTextStyle}>{errortext}</Text>
-          ) : null}
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            // onPress={handleSubmitButton}
-          >
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
-          </TouchableOpacity>
         </KeyboardAvoidingView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={{ margin: 5 }}>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Image
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                    }}
+                    source={require('./close-icon.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+              {/* ====================================================================================== */}
+              <View style={styles.modalContainer}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Text>Are you sure?</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => {
+                      setModalVisible(false);
+                      setModalVisibleSuccess(true);
+                    }}>
+                    <Text style={styles.buttonTextStyle}>Yes</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.redbuttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => {
+                      setModalVisible(false);
+                    }}>
+                    <Text style={styles.buttonTextStyle}>No</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {/* ====================================================================================== */}
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleSuccess}
+          onRequestClose={() => {
+            setModalVisibleSuccess(!modalVisibleSuccess);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={{ margin: 5 }}>
+                <TouchableOpacity onPress={() => setModalVisibleSuccess(false)}>
+                  <Image
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                    }}
+                    source={require('./close-icon.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.modalContainer}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Text>Successful Registration</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
@@ -158,6 +185,21 @@ const styles = StyleSheet.create({
     marginRight: 35,
     marginTop: 20,
     marginBottom: 20,
+    width: 100,
+  },
+  redbuttonStyle: {
+    backgroundColor: 'red',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 40,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: 35,
+    marginRight: 35,
+    marginTop: 20,
+    marginBottom: 20,
+    width: 100,
   },
   buttonTextStyle: {
     color: '#FFFFFF',
@@ -183,5 +225,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     padding: 30,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 12,
+  },
+  modalView: {
+    width: '100%',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    // alignItems: "center",
+    // shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalContainer: {
+    margin: 10,
   },
 });
